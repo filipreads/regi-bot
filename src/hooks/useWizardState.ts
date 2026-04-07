@@ -24,6 +24,14 @@ export interface BotSettings {
   retryFailed: boolean;
 }
 
+export type SiteStatus = 'pending' | 'running' | 'success' | 'error';
+
+export interface SiteResult {
+  siteId: string;
+  status: SiteStatus;
+  message?: string;
+}
+
 export interface WizardState {
   userData: UserData;
   sites: Site[];
