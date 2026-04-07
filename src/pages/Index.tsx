@@ -71,6 +71,7 @@ const AutoRegContent = () => {
             state={wizard.state}
             isRunning={wizard.isRunning}
             isDone={wizard.isDone}
+            siteResults={wizard.siteResults}
             onLaunch={wizard.launchBot}
             onBack={wizard.prevStep}
           />
