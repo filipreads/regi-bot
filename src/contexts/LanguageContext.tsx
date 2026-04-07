@@ -107,6 +107,13 @@ const translations = {
     saved: 'Saved',
     templateApplied: 'Template applied',
     noSites: "You don't have any websites yet. Add them above.",
+    siteStatus: 'Registration Status',
+    statusPending: 'Pending',
+    statusRunning: 'In Progress',
+    statusSuccess: 'Success',
+    statusError: 'Error',
+    successCount: 'Successful',
+    failedCount: 'Failed',
   },
 } as const;
 
