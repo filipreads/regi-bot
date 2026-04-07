@@ -72,6 +72,7 @@ export function useWizardState() {
   const [state, setState] = useState<WizardState>(loadState);
   const [isRunning, setIsRunning] = useState(false);
   const [isDone, setIsDone] = useState(false);
+  const [siteResults, setSiteResults] = useState<SiteResult[]>([]);
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -113,17 +114,47 @@ export function useWizardState() {
   const goToStep = useCallback((s: number) => setStep(s), []);
 
   const launchBot = useCallback(() => {
+    const sites = state.sites;
+    if (sites.length === 0) return;
+
     setIsRunning(true);
     setIsDone(false);
-    setTimeout(() => {
-      setIsRunning(false);
-      setIsDone(true);
-    }, 3000);
-  }, []);
+    setSiteResults(sites.map(s => ({ siteId: s.id, status: 'pending' as SiteStatus })));
+
+    // Simulate sequential per-site registration
+    sites.forEach((site, i) => {
+      // Set to running
+      setTimeout(() => {
+        setSiteResults(prev =>
+          prev.map(r => r.siteId === site.id ? { ...r, status: 'running' } : r)
+        );
+      }, i * 1500);
+
+      // Set to success/error
+      setTimeout(() => {
+        const success = Math.random() > 0.2; // 80% success rate simulation
+        setSiteResults(prev =>
+          prev.map(r =>
+            r.siteId === site.id
+              ? { ...r, status: success ? 'success' : 'error', message: success ? undefined : 'Timeout' }
+              : r
+          )
+        );
+
+        // If last site, mark done
+        if (i === sites.length - 1) {
+          setTimeout(() => {
+            setIsRunning(false);
+            setIsDone(true);
+          }, 500);
+        }
+      }, i * 1500 + 1200);
+    });
+  }, [state.sites]);
 
   return {
     step, nextStep, prevStep, goToStep,
     state, updateUserData, addSite, updateSite, removeSite, updateSettings,
-    isRunning, isDone, launchBot,
+    isRunning, isDone, siteResults, launchBot,
   };
 }
