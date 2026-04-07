@@ -51,6 +51,13 @@ const translations = {
     saved: 'Uloženo',
     templateApplied: 'Šablona použita',
     noSites: 'Zatím nemáte žádné weby. Přidejte je výše.',
+    siteStatus: 'Stav registrace',
+    statusPending: 'Čeká',
+    statusRunning: 'Probíhá',
+    statusSuccess: 'Úspěch',
+    statusError: 'Chyba',
+    successCount: 'Úspěšné',
+    failedCount: 'Neúspěšné',
   },
   en: {
     heroTitle: 'Auto',
